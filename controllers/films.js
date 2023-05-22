@@ -9,7 +9,8 @@ const { Op } = Sequelize;
 exports.getAllFilms = (req, res) => withErrorLogs(async () => {
   const films = await(
     Films.findAll({
-      attributes: ['id', 'name', 'description', 'releaseDate', 'posterUrl', 'backdropUrl']
+      where: { type: 'film' },
+      attributes: ['id', 'type', 'name', 'description', 'releaseDate', 'posterUrl', 'backdropUrl']
     })
   );
 

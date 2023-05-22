@@ -8,7 +8,6 @@ module.exports = {
     host: process.env.PGHOST,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
-      project: "Films-stas",
       ssl: true
     },
   }
