@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     confirmed: DataTypes.BOOLEAN,
   }, {});
-  User.associate = ({ Films }) => {
-    User.belongsToMany(Films, { through: 'Rating', as: 'ratedFilms' });
-    User.belongsToMany(Films, { through: 'Watchlist', as: 'toWatchFilms' });
+  User.associate = ({ Films, Rating }) => {
+    User.belongsToMany(Films, { through: Rating, as: 'ratedFilms', foreignKey: 'userId' });
+    User.belongsToMany(Films, { through: 'Watchlist', as: 'toWatchFilms', foreignKey: 'userId' });
   };
   return User;
 };

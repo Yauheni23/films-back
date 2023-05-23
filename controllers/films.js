@@ -32,8 +32,6 @@ exports.getFilmById = (req, res) => withErrorLogs(async () => {
         { association: 'images', attributes: ['id', 'url'] },
         { association: 'toWatchedBy', attributes: ['id'] },
         { association: 'actors', attributes: ['id', 'posterUrl', 'name'], through: { as: 'pivot', attributes: ['character']} },
-        { association: 'childs'},
-        { association: 'parent'}
       ],
     })
   );
@@ -56,8 +54,8 @@ exports.rateFilm = (req, res) => withErrorLogs(async () => {
   console.log(isRatingValid, "QQQQ")
   if (isRatingValid) {
     const [ratedObj, isCreated] = await Rating.findOrCreate({
-      where: { UserId: userId, FilmId: id },
-      defaults: { FilmId: id, rating }
+      where: { userId: userId, filmId: id },
+      defaults: { filmId: id, rating }
     });
 
     if (!isCreated) {
@@ -76,7 +74,7 @@ exports.addToWatchlist = (req, res) => withErrorLogs(async () => {
   const { id } = req.params;
   const { userId } = req;
   try {
-    const watchlist = await Watchlist.create({ FilmId: id, UserId: userId });
+    const watchlist = await Watchlist.create({ filmId: id, userId: userId });
 
     if (watchlist) {
       return res.send({ success: true })
@@ -93,7 +91,7 @@ exports.deleteFromWatchList = (req, res) => withErrorLogs(async () => {
 
   try {
     await Watchlist.destroy({
-      where: {FilmId: id, UserId: userId}
+      where: {filmId: id, userId: userId}
     })
 
     return res.send({ success: true })

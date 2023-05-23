@@ -6,8 +6,8 @@ const basename = path.basename(__filename);
 const modelsPath = path.join(__dirname, 'models');
 const db = {};
 
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
-const URL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=project%3D${ENDPOINT_ID}&ssl=true`;
+const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
+const URL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?ssl=true`;
 
 const sequelize = new Sequelize(URL);
 
@@ -19,7 +19,7 @@ fs
   .readdirSync(modelsPath)
   .filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
   .forEach(file => {
-    const model = sequelize['import'](path.join(modelsPath, file));
+    const model =  require(path.join(modelsPath, file))(sequelize, Sequelize.DataTypes)
     db[model.name] = model;
   });
 
