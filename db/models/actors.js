@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Actors.associate = ({ Films, ActorImage }) => {
     Actors.belongsToMany(Films,{ through: 'FilmActor', as: 'films', foreignKey: 'actorId' });
-    Actors.hasMany(ActorImage, { as: 'images' });
+    Actors.hasMany(ActorImage, { as: 'images', foreignKey: 'actorId' });
   };
 
   return Actors;

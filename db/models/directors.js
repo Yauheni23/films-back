@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     bornDate: DataTypes.DATE,
   }, {});
   Directors.associate = function({ Films }) {
-    Directors.hasMany(Films, { as: 'films' })
+    Directors.hasMany(Films, { as: 'films', foreignKey: 'directorId' })
   };
   return Directors;
 };
